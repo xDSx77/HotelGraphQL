@@ -8,7 +8,7 @@ using GraphQL.Server.Ui.Playground;
 using GraphQL.SystemTextJson;
 using HotelGraphQL.DataAccess;
 using HotelGraphQL.DataAccess.EfModels;
-using HotelGraphQL.GraphQL;
+using HotelGraphQL.GraphQL.Schemas;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -51,11 +51,16 @@ namespace HotelGraphQL
 
             services.AddDbContext<HotelDbContext>(options => options.UseInMemoryDatabase(databaseName: "MyHotelDb"));
 
-            services.AddGraphQL(options =>
+            services.AddGraphQL((options, provider) =>
             {
-                //options.ExposeExceptions = true;
-                //options.UnhandledExceptionDelegate = ctx => logger.LogError("{Error} occured", ctx.OriginalException.Message);
-            }).AddGraphTypes(ServiceLifetime.Scoped);
+                //options.EnableMetrics = Environment.IsDevelopment();
+                options.ExposeExceptions = true;
+                var logger = provider.GetRequiredService<ILogger<Startup>>();
+                options.UnhandledExceptionDelegate = ctx => logger.LogError("{Error} occured", ctx.OriginalException.Message);
+            })
+                .AddSystemTextJson(deserializerSettings => { }, serializerSettings => { })
+                .AddGraphTypes(ServiceLifetime.Scoped);
+            
 
             services.AddControllers();
         }
@@ -76,7 +81,7 @@ namespace HotelGraphQL
                 GraphQLEndPoint = "/graphql"
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace HotelGraphQL.GraphQL
 {
-    public class RoomType : ObjectGraphType<Room>
+    public class RoomStatusType : ObjectGraphType<RoomStatus>
     {
-        public RoomType()
+        public RoomStatusType()
         {
-            Field(x => x.Id);
-            Field(x => x.Name);
+            Field(x => x.ToString());
         }
     }
 }

@@ -7,25 +7,28 @@ using System.Threading.Tasks;
 
 namespace HotelGraphQL.DataAccess.EfModels
 {
+    public enum RoomStatus
+    {
+        Undefined = 0,
+        Occupied = 1,
+        Available = 2,
+    }
+
     public class Room
     {
-        public enum RoomStatus
-        {
-            Undefined = 0,
-            Occupied = 1,
-            Available = 2,
-        }
 
         [Key]
         public int Id { get; set; }
 
+        [Required]
         public int Number { get; set; }
+
+        [StringLength(200)]
         public string Name { get; set; }
-        public RoomStatus Status { get; set; }
-        public bool AllowedSmoking { get; set; }
 
         [Required]
-        public DateTime CheckinDate { get; set; }
-        public DateTime CheckoutDate { get; set; }
+        public RoomStatus Status { get; set; }
+
+        public bool AllowedSmoking { get; set; }
     }
 }
