@@ -1,18 +1,15 @@
 ﻿using GraphQL;
 using GraphQL.Types;
 using HotelGraphQL.DataAccess;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace HotelGraphQL.GraphQL.Queries
 {
-    public class ListRoomsQuery : ObjectGraphType
+    public class MyHotelQuery : ObjectGraphType
     {
-        public ListRoomsQuery(RoomRepository roomRepository)
+        public MyHotelQuery(RoomRepository roomRepository, ReservationRepository reservationRepository)
         {
-            Name = "Rooms";
             Field<ListGraphType<RoomType>>("rooms",
                 arguments: new QueryArguments(new List<QueryArgument>
                 {
@@ -29,6 +26,27 @@ namespace HotelGraphQL.GraphQL.Queries
                     {
                         return roomRepository.GetQuery()
                             .Where(room => room.AllowedSmoking == roomAllowedSmoking.Value);
+                    }
+                    return query.ToList();
+                }
+            );
+
+            Field<ListGraphType<ReservationType>>("reservations",
+                arguments: new QueryArguments(new List<QueryArgument>
+                {
+                    new QueryArgument<IdGraphType>
+                    {
+                        Name = "id"
+                    }
+                }),
+                resolve: context =>
+                {
+                    var query = reservationRepository.GetQuery();
+                    var reservationId = context.GetArgument<int?>("id");
+                    if (reservationId.HasValue)
+                    {
+                        return reservationRepository.GetQuery()
+                            .Where(reservation => reservation.Id == reservationId.Value);
                     }
                     return query.ToList();
                 }

@@ -1,9 +1,5 @@
 ﻿using GraphQL.Types;
 using HotelGraphQL.DataAccess.EfModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HotelGraphQL.GraphQL
 {
@@ -13,7 +9,9 @@ namespace HotelGraphQL.GraphQL
         {
             Name = "Room";
             Field(x => x.Id);
+            Field(x => x.Number);
             Field(x => x.Name);
+            Field<RoomStatusEnum>(nameof(Room.Status));
         }
     }
 }

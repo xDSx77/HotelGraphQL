@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HotelGraphQL.DataAccess.EfModels
 {
@@ -19,5 +16,17 @@ namespace HotelGraphQL.DataAccess.EfModels
         [Required]
         public DateTime CheckinDate { get; set; }
         public DateTime CheckoutDate { get; set; }
+
+        public Reservation()
+        {
+        }
+
+        public Reservation(int id, int roomId, DateTime checkinDate, DateTime checkoutDate)
+        {
+            Id = id;
+            RoomId = roomId;
+            CheckinDate = checkinDate;
+            CheckoutDate = checkoutDate;
+        }
     }
 }

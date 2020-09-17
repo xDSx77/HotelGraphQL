@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace HotelGraphQL.DataAccess.EfModels
 {
@@ -30,5 +25,18 @@ namespace HotelGraphQL.DataAccess.EfModels
         public RoomStatus Status { get; set; }
 
         public bool AllowedSmoking { get; set; }
+
+        public Room()
+        {
+        }
+
+        public Room(int id, int number, string name, RoomStatus status, bool allowedSmoking)
+        {
+            Id = id;
+            Number = number;
+            Name = name;
+            Status = status;
+            AllowedSmoking = allowedSmoking;
+        }
     }
 }

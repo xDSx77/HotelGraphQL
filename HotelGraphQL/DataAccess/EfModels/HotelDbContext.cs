@@ -1,40 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace HotelGraphQL.DataAccess.EfModels
 {
     public class HotelDbContext : DbContext
     {
-        public HotelDbContext()
-        {
-        }
 
         public HotelDbContext(DbContextOptions<HotelDbContext> options) : base(options)
         {
+            if (Rooms.Any())
+                return;
+            // Rooms
+            Rooms.Add(new Room(1, 100, "Room 100", RoomStatus.Available, false));
+            Rooms.Add(new Room(2, 101, "Room 101", RoomStatus.Available, true));
+            Rooms.Add(new Room(3, 102, "Room 102", RoomStatus.Occupied, false));
+            SaveChanges();
+
+            // Reservations
+            Reservations.Add(new Reservation(1, 1, DateTime.Now.AddDays(-2), DateTime.Now.AddDays(4)));
+            Reservations.Add(new Reservation(2, 2, DateTime.Now.AddDays(-4), DateTime.Now.AddDays(1)));
+            SaveChanges();
         }
 
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Room> Rooms { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            // Rooms
-            modelBuilder.Entity<Room>().HasData(new Room { Id = 1, Number = 100, Name = "Room 100", Status = RoomStatus.Available, AllowedSmoking = false });
-            modelBuilder.Entity<Room>().HasData(new Room { Id = 2, Number = 101, Name = "Room 101", Status = RoomStatus.Available, AllowedSmoking = true });
-            modelBuilder.Entity<Room>().HasData(new Room { Id = 3, Number = 102, Name = "Room 102", Status = RoomStatus.Occupied, AllowedSmoking = false });
-
-            // Reservations
-            modelBuilder.Entity<Reservation>().HasData(new Reservation { Id = 1, RoomId = 1, CheckinDate = DateTime.Now.AddDays(-2), CheckoutDate = DateTime.Now.AddDays(4) });
-            modelBuilder.Entity<Reservation>().HasData(new Reservation { Id = 2, RoomId = 2, CheckinDate = DateTime.Now.AddDays(-4), CheckoutDate = DateTime.Now.AddDays(1) });
-
-            base.OnModelCreating(modelBuilder);
-        }
     }
 }

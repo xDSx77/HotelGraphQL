@@ -29,7 +29,7 @@ namespace HotelGraphQL.DataAccess
             {
                 _context.Reservations.Add(reservation);
                 await _context.SaveChangesAsync();
-                return reservation;
+                return _context.Reservations.Where(x => x.Id == reservation.Id).Include(x => x.Room).FirstOrDefault();
             }
             catch (Exception ex)
             {

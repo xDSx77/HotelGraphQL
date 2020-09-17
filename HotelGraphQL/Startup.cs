@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using GraphQL.Server;
 using GraphQL.Server.Ui.GraphiQL;
 using GraphQL.Server.Ui.Playground;
-using GraphQL.SystemTextJson;
 using HotelGraphQL.DataAccess;
 using HotelGraphQL.DataAccess.EfModels;
 using HotelGraphQL.GraphQL.Schemas;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -53,7 +46,6 @@ namespace HotelGraphQL
 
             services.AddGraphQL((options, provider) =>
             {
-                //options.EnableMetrics = Environment.IsDevelopment();
                 options.ExposeExceptions = true;
                 var logger = provider.GetRequiredService<ILogger<Startup>>();
                 options.UnhandledExceptionDelegate = ctx => logger.LogError("{Error} occured", ctx.OriginalException.Message);
@@ -81,7 +73,7 @@ namespace HotelGraphQL
                 GraphQLEndPoint = "/graphql"
             });
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 

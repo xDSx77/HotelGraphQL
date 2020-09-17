@@ -1,10 +1,8 @@
 ﻿using GraphQL;
 using GraphQL.Types;
+using HotelGraphQL.GraphQL.Mutations;
 using HotelGraphQL.GraphQL.Queries;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HotelGraphQL.GraphQL.Schemas
 {
@@ -12,8 +10,8 @@ namespace HotelGraphQL.GraphQL.Schemas
     {
         public MyHotelSchema(IServiceProvider resolver) : base(resolver)
         {
-            Query = resolver.GetService(typeof(Query)).As<Query>();
-
+            Query = resolver.GetService(typeof(MyHotelQuery)).As<MyHotelQuery>();
+            Mutation = resolver.GetService(typeof(MyHotelMutation)).As<MyHotelMutation>();
         }
     }
 }
