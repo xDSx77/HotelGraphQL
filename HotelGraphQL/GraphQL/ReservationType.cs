@@ -11,6 +11,7 @@ namespace HotelGraphQL.GraphQL
     {
         public ReservationType()
         {
+            Name = "Reservation";
             Field(x => x.Id);
             Field(x => x.CheckinDate);
             Field(x => x.CheckoutDate);

@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace HotelGraphQL.GraphQL.Queries
 {
-    public class MyHotelQuery : ObjectGraphType
+    public class ListReservationsQuery : ObjectGraphType
     {
-        public MyHotelQuery(ReservationRepository reservationRepository)
+        public ListReservationsQuery(ReservationRepository reservationRepository)
         {
+            Name = "Reservations";
             Field<ListGraphType<ReservationType>>("reservations",
                 arguments: new QueryArguments(new List<QueryArgument>
                 {
@@ -27,7 +28,7 @@ namespace HotelGraphQL.GraphQL.Queries
                     if (reservationId.HasValue)
                     {
                         return reservationRepository.GetQuery()
-                            .Where(r => r.Id == reservationId.Value);
+                            .Where(reservation => reservation.Id == reservationId.Value);
                     }
                     return query.ToList();
                 }

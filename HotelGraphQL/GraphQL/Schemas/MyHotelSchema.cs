@@ -12,7 +12,8 @@ namespace HotelGraphQL.GraphQL.Schemas
     {
         public MyHotelSchema(IServiceProvider resolver) : base(resolver)
         {
-            Query = resolver.GetService(typeof(MyHotelQuery)).As<MyHotelQuery>();
+            Query = resolver.GetService(typeof(Query)).As<Query>();
+
         }
     }
 }

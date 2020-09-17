@@ -11,6 +11,7 @@ namespace HotelGraphQL.GraphQL
     {
         public RoomType()
         {
+            Name = "Room";
             Field(x => x.Id);
             Field(x => x.Name);
         }

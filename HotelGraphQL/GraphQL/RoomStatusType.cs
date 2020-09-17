@@ -11,6 +11,7 @@ namespace HotelGraphQL.GraphQL
     {
         public RoomStatusType()
         {
+            Name = "Room Status";
             Field(x => x.ToString());
         }
     }

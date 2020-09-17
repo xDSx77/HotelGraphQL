@@ -20,5 +20,11 @@ namespace HotelGraphQL.DataAccess
                 .Rooms
                 .ToListAsync();
         }
+
+        public DbSet<Room> GetQuery()
+        {
+            return _context
+                .Rooms;
+        }
     }
 }
