@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,18 +14,15 @@ namespace HotelGraphQL.DataAccess
         {
         }
 
-        public async Task<IEnumerable<Reservation>> GetAll()
-        {
-            return await _context
-                .Reservations
-                .Include(x => x.Room)
-                .ToListAsync();
-        }
-
         public async Task<Reservation> CreateReservation(Reservation reservation)
         {
             try
             {
+                var room = _context.Rooms.Find(reservation.RoomId);
+                if (room == null || room.Status != RoomStatus.Available)
+                    return null;
+                room.Status = RoomStatus.Occupied;
+                _context.Rooms.Update(room);
                 _context.Reservations.Add(reservation);
                 await _context.SaveChangesAsync();
                 return _context.Reservations.Where(x => x.Id == reservation.Id).Include(x => x.Room).FirstOrDefault();

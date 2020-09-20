@@ -13,9 +13,9 @@ namespace HotelGraphQL.DataAccess.EfModels
             if (Rooms.Any())
                 return;
             // Rooms
-            Rooms.Add(new Room(1, 100, "Room 100", RoomStatus.Available, false));
-            Rooms.Add(new Room(2, 101, "Room 101", RoomStatus.Available, true));
-            Rooms.Add(new Room(3, 102, "Room 102", RoomStatus.Occupied, false));
+            Rooms.Add(new Room(1, 100, "Room 100", RoomStatus.Occupied, false));
+            Rooms.Add(new Room(2, 101, "Room 101", RoomStatus.Occupied, true));
+            Rooms.Add(new Room(3, 102, "Room 102", RoomStatus.Available, false));
             SaveChanges();
 
             // Reservations
